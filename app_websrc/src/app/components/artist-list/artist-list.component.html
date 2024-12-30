@@ -1,1 +1,53 @@
-<p>artist-list works!</p>
+<div class="container mt-4">
+    <h2>Artist List</h2>
+    <div class="row">
+      <div class="col-12" *ngFor="let artist of artists">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{ artist.name }} ({{ artist.stageName }})</h5>
+            <p class="card-text">Label: {{ artist.label }}</p>
+            <p class="card-text">Rating: {{ artist.rating }}</p>
+            <button [routerLink]="['/artist', artist._id]" class="btn btn-primary">View Details</button>
+          </div><div class="container">
+            <h2>Artists</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Stage Name</th>
+                  <th>Label</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let artist of artists">
+                  <td>{{ artist.name }}</td>
+                  <td>{{ artist.stageName }}</td>
+                  <td>{{ artist.label }}</td>
+                  <td>
+                    <a [routerLink]="['/details', artist._id]" class="btn btn-info">Details</a>
+                    <a [routerLink]="['/edit', artist._id]" class="btn btn-warning">Edit</a>
+                    <button class="btn btn-danger" (click)="deleteArtist(artist._id)">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="paginate(currentPage - 1)">Previous</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="paginate(currentPage + 1)">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  

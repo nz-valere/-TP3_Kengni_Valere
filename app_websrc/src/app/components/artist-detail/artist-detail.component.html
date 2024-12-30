@@ -1,1 +1,12 @@
-<p>artist-detail works!</p>
+<div class="container">
+    <h2>{{ artist.name }} ({{ artist.stageName }})</h2>
+    <p>Label: {{ artist.label }}</p>
+    <!-- <p>Rating: {{ artist.rating }}</p> -->
+  
+    <div>
+      <label for="rating">Rate Artist:</label>
+      <input type="number" id="rating" [(ngModel)]="userRating" min="1" max="5" />
+      <button class="btn btn-primary" (click)="submitRating()">Submit</button>
+    </div>
+  </div>
+  
