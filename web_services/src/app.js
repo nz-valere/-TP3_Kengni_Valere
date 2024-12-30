@@ -6,6 +6,10 @@ require('dotenv').config();
 
 const app = express();
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the homepage!');
+});
+
 // Connect to the database
 connectDB();
 
