@@ -1,67 +1,79 @@
 <div class="container">
   <h1>{{ isEditMode ? 'Edit Artist' : 'Add Artist' }}</h1>
   <form [formGroup]="artistForm" (ngSubmit)="onSubmit()">
+    <!-- Artist Name -->
     <div class="form-group">
       <label for="artistName">Artist Name:</label>
-      <input id="artistName" formControlName="artistName" type="text" class="form-control" required />
+      <input id="artistName" formControlName="name" type="text" class="form-control" />
+      <div *ngIf="artistForm.get('name')?.invalid && artistForm.get('name')?.touched" class="text-danger">
+        Artist Name is required.
+      </div>
     </div>
 
+    <!-- Stage Name -->
     <div class="form-group">
       <label for="stageName">Stage Name:</label>
-      <input id="stageName" formControlName="stageName" type="text" class="form-control" required />
+      <input id="stageName" formControlName="stageName" type="text" class="form-control" />
+      <div *ngIf="artistForm.get('stageName')?.invalid && artistForm.get('stageName')?.touched" class="text-danger">
+        Stage Name is required.
+      </div>
     </div>
 
+    <!-- Number of Albums -->
     <div class="form-group">
       <label for="numberOfAlbums">Number of Albums:</label>
-      <input id="numberOfAlbums" formControlName="numberOfAlbums" type="number" class="form-control" required />
+      <input id="numberOfAlbums" formControlName="albums" type="number" class="form-control" />
+      <div *ngIf="artistForm.get('albums')?.invalid && artistForm.get('albums')?.touched" class="text-danger">
+        Number of Albums must be 0 or higher.
+      </div>
     </div>
 
+    <!-- Rating -->
     <div class="form-group">
-      <label for="rate">Rate:</label>
-      <input id="rate" formControlName="rate" type="number" class="form-control" min="1" max="5" />
+      <label for="rate">Rating:</label>
+      <input id="rate" formControlName="rating" type="number" class="form-control" min="0" max="5" />
     </div>
 
+    <!-- Artist Image -->
     <div class="form-group">
-      <label for="artistImage">Image File:</label>
-      <input id="artistImage" type="file" (change)="onFileSelected($event)" class="form-control" required />
+      <label for="artistImage">Artist Image (URL):</label>
+      <input id="artistImage" formControlName="image" type="url" class="form-control" />
     </div>
-    
 
+    <!-- Career Start Date -->
     <div class="form-group">
       <label for="careerStartDate">Career Start Date:</label>
-      <input id="careerStartDate" formControlName="careerStartDate" type="date" class="form-control" required />
+      <input id="careerStartDate" formControlName="startDate" type="date" class="form-control" />
+      <div *ngIf="artistForm.get('startDate')?.invalid && artistForm.get('startDate')?.touched" class="text-danger">
+        Career Start Date is required.
+      </div>
     </div>
 
+    <!-- Label -->
     <div class="form-group">
       <label for="label">Label:</label>
-      <input id="label" formControlName="label" type="text" class="form-control" required />
+      <input id="label" formControlName="label" type="text" class="form-control" />
+      <div *ngIf="artistForm.get('label')?.invalid && artistForm.get('label')?.touched" class="text-danger">
+        Label is required.
+      </div>
     </div>
 
+    <!-- Publishing House -->
     <div class="form-group">
       <label for="publishingHouse">Publishing House:</label>
-      <input id="publishingHouse" formControlName="publishingHouse" type="text" class="form-control" required />
+      <input id="publishingHouse" formControlName="publishingHouse" type="text" class="form-control" />
+      <div *ngIf="artistForm.get('publishingHouse')?.invalid && artistForm.get('publishingHouse')?.touched" class="text-danger">
+        Publishing House is required.
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="facebook">Facebook URL:</label>
-      <input id="facebook" formControlName="facebook" type="url" class="form-control" />
+     <!-- Social Media Links -->
+     <div class="form-group" *ngFor="let field of ['facebook', 'instagram', 'twitter', 'youtube']">
+      <label [for]="field">{{ field.charAt(0).toUpperCase() + field.slice(1) }} URL:</label>
+      <input [id]="field" [formControlName]="field" type="url" class="form-control" />
     </div>
 
-    <div class="form-group">
-      <label for="instagram">Instagram URL:</label>
-      <input id="instagram" formControlName="instagram" type="url" class="form-control" />
-    </div>
-
-    <div class="form-group">
-      <label for="twitter">Twitter URL:</label>
-      <input id="twitter" formControlName="twitter" type="url" class="form-control" />
-    </div>
-
-    <div class="form-group">
-      <label for="youtube">YouTube URL:</label>
-      <input id="youtube" formControlName="youtube" type="url" class="form-control" />
-    </div>
-
+    <!-- Submit Button -->
     <button type="submit" class="btn btn-primary">
       {{ isEditMode ? 'Update Artist' : 'Create Artist' }}
     </button>

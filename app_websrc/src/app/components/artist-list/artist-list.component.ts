@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ArtistService } from '../../services/artist.service';
 import { CommonModule } from '@angular/common';
 import { artist } from '../../types/artist';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-artist-list',
@@ -18,14 +18,16 @@ export class ArtistListComponent implements OnInit{
   totalArtists = 0;
   totalPages = 0;
 
-  constructor(private artistService: ArtistService) {}
+  constructor(private artistService: ArtistService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadArtists();
   }
-
+  addArtist(): void {
+    this.router.navigate(['/add']);
+  }
   loadArtists(page: number = 1): void {
-    this.artistService.getArtists(page, 4).subscribe((data) => {
+    this.artistService.getArtists(page, 100).subscribe((data) => {
       this.artists = data.artists;
       this.currentPage = data.currentPage;
       this.totalPages = data.totalPages;
