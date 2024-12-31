@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArtistService } from '../../services/artist.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-artist-form',
@@ -12,92 +13,117 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./artist-form.component.scss']
 })
 export class ArtistFormComponent implements OnInit {
-  artist: any = {
-    id: '',
-    name: '',
-    stagename: '',
-    label: '',
-    
-  };
   userRating: number = 0;
-  // isEdit = false;
+  selectedFile: File | null = null;
   isEditMode = false;
-
+  artistId: string | null = null;
   artistForm!: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private artistService: ArtistService,
-    private fb: FormBuilder, 
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
-    const id = this.route.snapshot.paramMap.get('id');
+    this.artistId = this.route.snapshot.paramMap.get('id');
 
-    if (id) {
+    if (this.artistId) {
       this.isEditMode = true;
-      this.loadArtist(id);
-      this.artistService.getArtistById(id.toString()).subscribe((data) => (this.artist = data));
-      console.log(this.artist);
+      this.loadArtist(this.artistId);
     }
   }
 
   initializeForm() {
     this.artistForm = this.fb.group({
-      id: [this.artist.id], // Hidden ID field
-      cropName: [this.artist.name, Validators.required],
-      artiststagename: [this.artist.stagename, Validators.required],
-      label: [this.artist.label, Validators.required],
-      
+      artistName: ['', Validators.required],
+      stageName: ['', Validators.required],
+      numberOfAlbums: [0, [Validators.required, Validators.min(0)]],
+      rate: [0, [Validators.min(1), Validators.max(5)]],
+      careerStartDate: ['', Validators.required],
+      label: ['', Validators.required],
+      publishingHouse: ['', Validators.required],
+      facebook: [''],
+      instagram: [''],
+      twitter: [''],
+      youtube: ['']
     });
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
   }
 
   loadArtist(id: string): void {
     this.artistService.getArtistById(id).subscribe({
       next: (data) => {
-        this.artistForm.patchValue(data);
+        // Populate the form with existing artist data
+        this.artistForm.patchValue({
+          artistName: data.artistName,
+          stageName: data.stageName,
+          numberOfAlbums: data.numberOfAlbums,
+          rate: data.rate,
+          careerStartDate: data.careerStartDate,
+          label: data.label,
+          publishingHouse: data.publishingHouse,
+          facebook: data.socialMedia?.facebook || '',
+          instagram: data.socialMedia?.instagram || '',
+          twitter: data.socialMedia?.twitter || '',
+          youtube: data.socialMedia?.youtube || ''
+        });
       },
-      error: (err) => console.error('Error loading the artist:', err)
+      error: (err) => {
+        console.error('Error loading artist:', err);
+        alert('Failed to load artist data.');
+      }
     });
-  }
-
-  saveArtist(): void {
-    if (this.isEditMode) {
-      this.artistService.updateArtist(this.artist._id, this.artist).subscribe(() => this.router.navigate(['/']));
-    } else {
-      this.artistService.createArtist(this.artist).subscribe(() => this.router.navigate(['/']));
-    }
   }
 
   onSubmit(): void {
     if (this.artistForm.invalid) {
+      alert('Please fill in all required fields.');
       return;
     }
 
-    const artistData = this.artistForm.value;
+    const formData = new FormData();
+    // Append form data
+    Object.keys(this.artistForm.value).forEach((key) => {
+      formData.append(key, this.artistForm.value[key]);
+    });
 
-    if (this.isEditMode) {
+    // Append the file if selected
+    if (this.selectedFile) {
+      formData.append('artistImage', this.selectedFile);
+    }
+
+    if (this.isEditMode && this.artistId) {
       // Update existing artist
-      this.artistService.updateArtist(artistData.id, artistData).subscribe({
+      this.artistService.updateArtist(this.artistId, formData).subscribe({
         next: () => {
-          alert('Artist updated successfully');
+          alert('Artist updated successfully!');
           this.router.navigate(['/']);
         },
-        error: (err) => console.error('Error updating artist:', err)
+        error: (err) => {
+          console.error('Error updating artist:', err);
+          alert('Failed to update artist.');
+        }
       });
     } else {
-      // Add new artist
-      this.artistService.createArtist(artistData).subscribe({
+      // Create new artist
+      this.artistService.createArtist(formData).subscribe({
         next: (res) => {
-          console.log('artist created successfully:', res);
-          alert('Artist added successfully');
+          alert('Artist created successfully!');
           this.artistForm.reset();
           this.router.navigate(['/']);
         },
-        error: (err) => {console.error('Error adding artist:', err);
-        alert('Error creating an artist!');
+        error: (err) => {
+          console.error('Error creating artist:', err);
+          alert('Failed to create artist.');
         }
       });
     }
