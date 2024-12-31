@@ -1,41 +1,83 @@
-<div class="container mt-4">
-    <h2>Artist List</h2>
-    <div class="row">
-      <div class="col-12" *ngFor="let artist of artists">
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">{{ artist.name }} ({{ artist.stageName }})</h5>
-            <p class="card-text">Label: {{ artist.label }}</p>
-            <p class="card-text">Rating: {{ artist.rating }}</p>
-            <button [routerLink]="['/artist', artist._id]" class="btn btn-primary">View Details</button>
-          </div><div class="container">
-            <h2>Artists</h2>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Stage Name</th>
-                  <th>Label</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let artist of artists">
-                  <td>{{ artist.name }}</td>
-                  <td>{{ artist.stageName }}</td>
-                  <td>{{ artist.label }}</td>
-                  <td>
-                    <a [routerLink]="['/details', artist._id]" class="btn btn-info">Details</a>
-                    <a [routerLink]="['/edit', artist._id]" class="btn btn-warning">Edit</a>
-                    <button class="btn btn-danger" (click)="deleteArtist(artist._id)">Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+<div class="author-table-container">
+  <div class="title-bar">
+    Artsit list
+  </div>
+    <div class="table-container row">
+      <table>
+        <thead>
+          <tr>
+            <th>ARTIST</th>
+            <th>LABEL</th>
+            <th>ALBUM</th>
+            <th>STARTDATE</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="col-12" *ngFor="let artist of artists">
+            <td>
+              <div class="author-details">
+                <img [src]="artist.image" alt="Profile">
+                <div>
+                  <p class="author-name">{{ artist.name }} ({{artist.stageName}})</p>
+                  <p class="author-email">{{ artist.publishingHouse }}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="function-role">{{ artist.label }}</p>
+              <p class="function-department">{{ artist.rating }}</p>
+            </td>
+            <td>
+              <span [class.online]="artist.status === 'ONLINE'" [class.offline]="artist.status === 'OFFLINE'">
+                {{ artist.albums }}
+              </span>
+            </td>
+            <td>
+              {{ artist.startDate }}
+            </td>
+            <td class="edit-action">
+              <button [routerLink]="['/detail', artist._id]" class="btn btn-primary">View Details</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+        <!-- <div class="col-12" *ngFor="let artist of artists">
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">{{ artist.name }} ({{ artist.stageName }})</h5>
+              <p class="card-text">Label: {{ artist.label }}</p>
+              <p class="card-text">Rating: {{ artist.rating }}</p>
+              
+            </div>
+            <div class="container">
+              <h2>Artists</h2>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Stage Name</th>
+                    <th>Label</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let artist of artists">
+                    <td>{{ artist.name }}</td>
+                    <td>{{ artist.stageName }}</td>
+                    <td>{{ artist.label }}</td>
+                    <td>
+                      <a [routerLink]="['/details', artist._id]" class="btn btn-info">Details</a>
+                      <a [routerLink]="['/edit', artist._id]" class="btn btn-warning">Edit</a>
+                      <button class="btn btn-danger" (click)="deleteArtist(artist._id)">Delete</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
           </div>
-          
-        </div>
-      </div>
+        </div> -->   
     </div>
   
     <!-- Pagination -->

@@ -29,6 +29,17 @@ const getArtists = async (req, res) => {
   }
 };
 
+const getArtistById = async (req, res) => {
+  try {
+    const artist = await Artist.findById(req.params.id);
+    if (!artist) {
+      return res.status(404).json({ message: 'Artist not found' });
+    }
+    res.status(200).json(artist);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
 
 // Create a new artist
 const createArtist = async (req, res) => {
@@ -109,6 +120,7 @@ const rateArtist = async (req, res) => {
 
 module.exports = {
   getArtists,
+  getArtistById,
   createArtist,
   updateArtist,
   deleteArtist,

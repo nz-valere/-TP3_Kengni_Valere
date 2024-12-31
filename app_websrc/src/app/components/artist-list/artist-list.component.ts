@@ -25,7 +25,7 @@ export class ArtistListComponent implements OnInit{
   }
 
   loadArtists(page: number = 1): void {
-    this.artistService.getArtists(page, 8).subscribe((data) => {
+    this.artistService.getArtists(page, 4).subscribe((data) => {
       this.artists = data.artists;
       this.currentPage = data.currentPage;
       this.totalPages = data.totalPages;

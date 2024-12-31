@@ -1,5 +1,5 @@
 <div class="container">
-    <h2>{{ isEdit ? 'Edit' : 'Add' }} Artist</h2>
+    <!-- <h2>{{ isEdit ? 'Edit' : 'Add' }} Artist</h2>
     <form (ngSubmit)="saveArtist()">
       <div class="form-group">
         <label for="name">Name</label>
@@ -9,8 +9,54 @@
         <label for="stageName">Stage Name</label>
         <input id="stageName" [(ngModel)]="artist.stageName" name="stageName" class="form-control" required />
       </div>
-      <!-- Add other fields -->
+      
       <button type="submit" class="btn btn-success">Save</button>
+    </form> -->
+
+
+     <h1>{{ artist.id ? 'Edit artist' : 'Add artist' }}</h1>
+    <form [formGroup]="artistForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="cropName">Artist Name</label>
+            <input
+              id="artistName"
+              type="text"
+              formControlName="artist"
+              class="form-control"
+              placeholder="Enter artist name"
+            />
+            <div *ngIf="artistForm.get('artistName')?.invalid && artistForm.get('artistName')?.touched">
+              <small class="text-danger">Artist Name is required.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cropName">stage Name</label>
+            <input
+              id="stageName"
+              type="text"
+              formControlName="stageName"
+              class="form-control"
+              placeholder="Enter stage name"
+            />
+            <div *ngIf="artistForm.get('artistName')?.invalid && artistForm.get('artistName')?.touched">
+              <small class="text-danger">Artist Name is required.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cropDescription">Description</label>
+            <textarea
+              id="label"
+              formControlName="label"
+              class="form-control"
+              placeholder="Enter label"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" >
+            {{ artist.id ? 'Update Crop' : 'Create Crop' }}
+          </button>
     </form>
   </div>
   
