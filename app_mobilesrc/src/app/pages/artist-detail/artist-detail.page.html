@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ artist?.stageName }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="artist">
+    <ion-img [src]="artist.image"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{ artist.stageName }}</ion-card-title>
+      <ion-card-subtitle>{{ artist.name }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Albums: {{ artist.albums }}</p>
+      <p>Publishing House: {{ artist.publishingHouse }}</p>
+      <p>Rating: {{ artist.rating }}</p>
+      <p>Social Media: 
+        <a *ngFor="let link of artist.socialMedia" [href]="link" target="_blank">{{ link }}</a>
+      </p>
+    </ion-card-content>
+    <ion-button expand="block" (click)="openRatingModal()">Rate Artist</ion-button>
+  </ion-card>
+</ion-content>

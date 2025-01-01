@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Artists</ion-title>
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="searchArtists()"
+      placeholder="Search by name or stage name"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let artist of artists" [routerLink]="['/artist-detail', artist._id]">
+      <ion-thumbnail slot="start">
+        <img [src]="artist.image" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ artist.stageName }}</h2>
+        <p>{{ artist.publishingHouse }}</p>
+        <p>Rating: {{ artist.rating }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onScroll($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

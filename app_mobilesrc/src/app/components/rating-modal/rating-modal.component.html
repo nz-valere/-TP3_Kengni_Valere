@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Rate Artist</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="ratingForm" (ngSubmit)="submitRating()">
+    <ion-item>
+      <ion-label position="stacked">Rating (1-5)</ion-label>
+      <ion-input type="number" formControlName="rating"></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit" [disabled]="ratingForm.invalid">
+      Submit Rating
+    </ion-button>
+  </form>
+</ion-content>

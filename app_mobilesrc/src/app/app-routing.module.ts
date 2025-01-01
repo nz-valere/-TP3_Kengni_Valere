@@ -8,8 +8,25 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'homepage',
     pathMatch: 'full'
+  },
+  {
+    path: 'homepage',
+    loadChildren: () => import('./pages/homepage/homepage.module').then( m => m.HomepagePageModule)
+  },
+  {
+    path: 'artist-detail',
+    loadChildren: () => import('./pages/artist-detail/artist-detail.module').then( m => m.ArtistDetailPageModule)
+  },
+  {
+    path: 'artist-detail/:id',
+    loadChildren: () =>
+      import('./pages/artist-detail/artist-detail.module').then((m) => m.ArtistDetailPageModule),
+  },
+  {
+    path: '**',
+    redirectTo: 'homepage',
   },
 ];
 
