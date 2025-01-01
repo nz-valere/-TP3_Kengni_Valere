@@ -1,5 +1,5 @@
 const express = require('express');
-const { rateArtist } = require('../controllers/artistController');
+// const { rateArtist } = require('../controllers/artistController');
 const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
