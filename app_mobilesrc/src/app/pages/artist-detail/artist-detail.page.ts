@@ -3,7 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ArtistService } from '../../services/artist.service';
-import { RatingModalComponent } from '../../components/rating-modal/rating-modal.component'
+import { AuthService } from '../../services/auth.service';
+import { RatingModalComponent } from '../../components/rating-modal/rating-modal.component';
 
 @Component({
   selector: 'app-artist-detail',
@@ -12,12 +13,13 @@ import { RatingModalComponent } from '../../components/rating-modal/rating-modal
 })
 export class ArtistDetailPage implements OnInit {
   artist: any;
-  userId: string = 'uniqueUserId';
+  userId: string | null = null; // Initialize as null
   ratingForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
     private artistService: ArtistService,
+    private authService: AuthService,
     private modalController: ModalController,
     private formBuilder: FormBuilder
   ) {
@@ -27,6 +29,12 @@ export class ArtistDetailPage implements OnInit {
   }
 
   ngOnInit() {
+    // Retrieve the logged-in user's ID dynamically
+    this.userId = this.authService.getUserId();
+    if (!this.userId) {
+      console.error('User ID is not available. Please log in.');
+    }
+
     const artistId = this.route.snapshot.paramMap.get('id');
     this.artistService.getArtistById(artistId!).subscribe(
       (data) => {
@@ -47,18 +55,23 @@ export class ArtistDetailPage implements OnInit {
     const { data } = await modal.onDidDismiss();
     if (data) {
       this.submitRating(data.rating);
-      console.log('Received Rating Data:', data); 
+      console.log('Received Rating Data:', data);
     }
   }
 
   submitRating(rating: number) {
+    if (!this.userId) {
+      console.error('Cannot submit rating: User ID is not available.');
+      return;
+    }
+
     const payload = {
-      userId: this.userId, // Replace with actual user management logic
+      userId: this.userId, // Use the dynamically retrieved user ID
       userRating: rating, // Match the backend's "userRating" key
     };
-  
+
     console.log('Submitting payload to backend:', payload); // Debugging log
-  
+
     this.artistService.rateArtist(this.artist._id, payload).subscribe(
       (response) => {
         console.log('Rating submitted successfully:', response);
@@ -69,5 +82,4 @@ export class ArtistDetailPage implements OnInit {
       }
     );
   }
-  
 }

@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
+  // {
+  //   path: 'home',
+  //   loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  // },
   {
     path: '',
-    redirectTo: 'homepage',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
     path: 'homepage',
-    loadChildren: () => import('./pages/homepage/homepage.module').then( m => m.HomepagePageModule)
+    loadChildren: () => import('./pages/homepage/homepage.module').then( m => m.HomepagePageModule),
+    canActivate: [AuthGuard], // Protect this route
   },
   {
     path: 'artist-detail',
@@ -27,6 +29,14 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'homepage',
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
 ];
 
