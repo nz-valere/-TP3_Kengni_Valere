@@ -27,7 +27,7 @@ export class ArtistListComponent implements OnInit{
     this.router.navigate(['/add']);
   }
   loadArtists(page: number = 1): void {
-    this.artistService.getArtists(page, 100).subscribe((data) => {
+    this.artistService.getArtists(page, 3).subscribe((data) => {
       this.artists = data.artists;
       this.currentPage = data.currentPage;
       this.totalPages = data.totalPages;

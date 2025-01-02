@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+.title-bar {
+    background: linear-gradient(to right, #181a1d, #4f5560);
+    color: white;
+    width: 95%;
+    height: 80px;
+    margin: 5px auto;
+    border-radius: 8px;
+    padding: 16px;
+    z-index: 2;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    box-shadow: 5px 17px 16px rgba(0, 0, 0, 0.514);
+    position: relative;
+
+  }

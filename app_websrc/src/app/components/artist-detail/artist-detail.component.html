@@ -1,16 +1,18 @@
-<div class="container">
-   
-    <h2>{{ artist.name }} ({{ artist.stageName }})</h2>
-    <p>Image: {{ artist.image }}</p>
-    <p>Label: {{ artist.label }}</p>
-    <p>Rating: {{ artist.rating }}</p>
-  
-    <div>
-      <label for="rating">Rate Artist:</label>
-      <!-- <input type="number" id="rating" [(ngModel)]="userRating" min="1" max="5" /> -->
-      <!-- <button class="btn btn-primary" (click)="submitRating()">Submit</button> -->
-      <button [routerLink]="['/edit', artist._id]" class="btn btn-warning">Edit</button>
-      <button class="btn btn-danger" (click)="deleteArtist(artist._id)">Delete</button>
+  <div class="title-bar">
+    <h1>Artist Details</h1>
+  </div>
+  <div class="container">
+    <img src="{{ artist.image }}" alt="{{ artist.stageName }}'s image" class="background-image">
+    <div class="overlay">
+        <h2>{{ artist.name }} ({{ artist.stageName }})</h2>
+        <p>Social Media: {{ artist.socialMedia }}</p>
+        <p>Label: {{ artist.label }}</p>
+        <p>Rating: {{ artist.rating }}</p>
+
+        <div class="actions">
+            <button [routerLink]="['/']" class="btn btn-primary">Back</button>
+            <button [routerLink]="['/edit', artist._id]" class="btn btn-warning">Edit</button>
+            <button (click)="deleteArtist(artist._id)" class="btn btn-danger">Delete</button>
+        </div>
     </div>
   </div>
-  
