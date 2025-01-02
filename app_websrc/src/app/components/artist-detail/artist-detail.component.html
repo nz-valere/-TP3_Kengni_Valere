@@ -7,8 +7,8 @@
   
     <div>
       <label for="rating">Rate Artist:</label>
-      <input type="number" id="rating" [(ngModel)]="userRating" min="1" max="5" />
-      <button class="btn btn-primary" (click)="submitRating()">Submit</button>
+      <!-- <input type="number" id="rating" [(ngModel)]="userRating" min="1" max="5" /> -->
+      <!-- <button class="btn btn-primary" (click)="submitRating()">Submit</button> -->
       <button [routerLink]="['/edit', artist._id]" class="btn btn-warning">Edit</button>
       <button class="btn btn-danger" (click)="deleteArtist(artist._id)">Delete</button>
     </div>

@@ -9,8 +9,8 @@ const artistSchema = new mongoose.Schema({
   rating: { type: Number, default: 0 }, // Average rating
   ratings: [
     {
-      userId: { type: String, required: true }, // User who submitted the rating
-      value: { type: Number, required: true }, // Rating value (1-5)
+      userId: { type: String, required: false }, // User who submitted the rating
+      value: { type: Number, required: false }, // Rating value (1-5)
     },
   ],
   socialMedia: { type: [String], default: [] },

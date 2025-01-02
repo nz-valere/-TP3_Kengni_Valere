@@ -21,12 +21,12 @@ export class ArtistService {
   }
 
   // Create a new artist
-  createArtist(artist: any): Observable<any> {
+  createArtist(artist: FormData): Observable<any> {
     return this.http.post<any>(this.apiUrl, artist);
   }
 
   // Update an artist
-  updateArtist(id: string, artist: any): Observable<any> {
+  updateArtist(id: string, artist: FormData): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, artist);
   }
 
@@ -36,7 +36,7 @@ export class ArtistService {
   }
 
   // Rate an artist
-  rateArtist(id: string, rating: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/${id}/rate`, rating);
-  }
+  // rateArtist(id: string, rating: any): Observable<any> {
+  //   return this.http.post<any>(`${this.apiUrl}/${id}/rate`, rating);
+  // }
 }

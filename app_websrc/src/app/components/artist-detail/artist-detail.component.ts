@@ -36,13 +36,13 @@ export class ArtistDetailComponent implements OnInit {
     }
   }
 
-  submitRating(): void {
-    const id = this.artist._id;
-    this.artistService.rateArtist(id, { userId: 'user123', userRating: this.userRating }).subscribe((data) => {
-      this.artist.rating = data.averageRating;
-      alert('Rating submitted successfully');
-    });
-  }
+  // submitRating(): void {
+  //   const id = this.artist._id;
+  //   this.artistService.rateArtist(id, { userId: 'user123', userRating: this.userRating }).subscribe((data) => {
+  //     this.artist.rating = data.averageRating;
+  //     alert('Rating submitted successfully');
+  //   });
+  // }
 
   deleteArtist(id: string): void {
     this.artistService.deleteArtist(id.toString()).subscribe(() => {
