@@ -12,6 +12,7 @@ import { RatingModalComponent } from '../../components/rating-modal/rating-modal
   styleUrls: ['./artist-detail.page.scss'],
 })
 export class ArtistDetailPage implements OnInit {
+
   artist: any;
   userId: string | null = null; // Initialize as null
   ratingForm: FormGroup;
@@ -58,6 +59,10 @@ export class ArtistDetailPage implements OnInit {
       console.log('Received Rating Data:', data);
     }
   }
+
+  followArtist() {
+    alert('You are now following this artist!');
+    }
 
   submitRating(rating: number) {
     if (!this.userId) {

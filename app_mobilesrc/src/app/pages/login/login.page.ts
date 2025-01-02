@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -12,7 +13,7 @@ export class LoginPage {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private navCtrl: NavController) {}
 
   login() {
     this.authService.login(this.email, this.password).subscribe(
@@ -21,9 +22,14 @@ export class LoginPage {
         this.router.navigate(['/home']); // Navigate to home
       },
       (error) => {
-        this.errorMessage = 'Invalid email or password.';
+        this.errorMessage = `Invalid email or password. <a href="#">Don't have an account? Register now!</a>`;
+        // this.errorMessage = 'Don not have an account? Register now!';
         console.error('Login error:', error);
       }
+      
     );
+  }
+  navigateToRegister() { 
+    this.navCtrl.navigateForward('/register');
   }
 }

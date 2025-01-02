@@ -37,6 +37,10 @@ export class AuthService {
     return null;
   }
 
+  register(name: string, email: string, password: string) {
+    return this.http.post(`${this.baseUrl}/register`, { name, email, password });
+  }
+
   // Check if the user is authenticated
   isAuthenticated(): boolean {
     return !!this.getToken();
