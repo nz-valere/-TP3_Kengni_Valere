@@ -82,16 +82,18 @@
     </div>
   
     <!-- Pagination -->
-    <nav aria-label="Page navigation">
-      <ul class="pagination">
-        <li class="page-item" [class.disabled]="currentPage === 1">
-          <a class="page-link" (click)="paginate(currentPage - 1)">Previous</a>
-        </li>
-        <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <a class="page-link" (click)="paginate(currentPage + 1)">Next</a>
-        </li>
-      </ul>
-    </nav>
-    <button class="btn" (click)="addArtist()">Add Artist</button>
+   
+    <div class="pagination">
+      <button class="page-item page-link" (click)="loadArtists(currentPage - 1)" [disabled]="currentPage === 1">
+        Previous
+      </button>
+      
+      <button class="page-item page-link" (click)="loadArtists(currentPage + 1)" [disabled]="currentPage === totalPages">
+        Next
+      </button>
+      <span style="margin-left: 50px;">Page {{ currentPage }} of {{ totalPages }}</span>
+    </div>
+    
+    <button style="margin-top: 15px;" class="btn btn-primary" (click)="addArtist()">Add Artist</button>
   </div>
   

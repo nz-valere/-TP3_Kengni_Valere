@@ -7,7 +7,7 @@ import {jwtDecode} from 'jwt-decode';
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:5000/api/auth'; // Update with your backend URL
+  private baseUrl = 'https://tp3-kengni-valere-1.onrender.com/api/auth'; // Update with your backend URL
   private tokenKey = 'authToken';
 
   constructor(private http: HttpClient, private router: Router) {}

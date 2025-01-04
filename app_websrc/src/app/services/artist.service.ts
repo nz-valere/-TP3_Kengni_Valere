@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ArtistService {
-  private apiUrl = 'http://localhost:5000/api/artists'; // Adjust if needed
+  private apiUrl = 'https://tp3-kengni-valere-1.onrender.com/api/artists'; // Adjust if needed
 
   constructor(private http: HttpClient) {}
 
