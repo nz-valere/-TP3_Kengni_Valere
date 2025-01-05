@@ -1,22 +1,17 @@
 const Artist = require('../models/Artist');
-
+const upload = require('../middleware/multer'); // Import multer middleware
 
 // Get all artists
 const getArtists = async (req, res) => {
   try {
-    // Extract page and limit from query parameters
-    const page = parseInt(req.query.page) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit) || 10; // Default to 10 items per page
-
-    // Calculate the starting index
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
     const startIndex = (page - 1) * limit;
 
-    // Fetch artists with pagination
     const artists = await Artist.find()
-      .skip(startIndex) // Skip items for previous pages
-      .limit(limit); // Limit the number of items
+      .skip(startIndex)
+      .limit(limit);
 
-    // Get the total count of artists
     const totalArtists = await Artist.countDocuments();
 
     res.status(200).json({
@@ -36,6 +31,10 @@ const getArtistById = async (req, res) => {
     if (!artist) {
       return res.status(404).json({ message: 'Artist not found' });
     }
+    // Check if image exists and convert it to a Base64 string
+    if (artist.image && artist.image.data) {
+      artist.image = `data:${artist.image.contentType};base64,${artist.image.data.toString('base64')}`;
+    }
     res.status(200).json(artist);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -45,8 +44,32 @@ const getArtistById = async (req, res) => {
 // Create a new artist
 const createArtist = async (req, res) => {
   try {
-    const artist = new Artist(req.body);
+    const artist = new Artist({
+      artistId: req.body.artistId,
+      name: req.body.name,
+      stageName: req.body.stageName,
+      albums: req.body.albums || 0,
+      socialMedia: req.body.socialMedia ? req.body.socialMedia.split(',') : [],
+      label: req.body.label,
+      publishingHouse: req.body.publishingHouse,
+      startDate: req.body.startDate,
+    });
+
+    // Add image data if a file was uploaded
+    if (req.file) {
+      artist.image = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      };
+    }
+
     await artist.save();
+
+    // After saving, return the image as base64
+    if (artist.image && artist.image.data) {
+      artist.image = `data:${artist.image.contentType};base64,${artist.image.data.toString('base64')}`;
+    }
+
     res.status(201).json(artist);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -56,9 +79,32 @@ const createArtist = async (req, res) => {
 // Update an artist
 const updateArtist = async (req, res) => {
   try {
-    const artist = await Artist.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!artist) return res.status(404).json({ message: 'Artist not found' });
-    res.json(artist);
+    const artist = await Artist.findById(req.params.id);
+    if (!artist) {
+      return res.status(404).json({ message: 'Artist not found' });
+    }
+
+    // Update fields
+    artist.name = req.body.name || artist.name;
+    artist.stageName = req.body.stageName || artist.stageName;
+    artist.albums = req.body.albums || artist.albums;
+    artist.socialMedia = req.body.socialMedia
+      ? req.body.socialMedia.split(',')
+      : artist.socialMedia;
+    artist.label = req.body.label || artist.label;
+    artist.publishingHouse = req.body.publishingHouse || artist.publishingHouse;
+    artist.startDate = req.body.startDate || artist.startDate;
+
+    // Update image if a new file was uploaded
+    if (req.file) {
+      artist.image = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      };
+    }
+
+    const updatedArtist = await artist.save();
+    res.status(200).json(updatedArtist);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -77,47 +123,42 @@ const deleteArtist = async (req, res) => {
 
 const rateArtist = async (req, res) => {
   const { id } = req.params;
-  const { userId, userRating } = req.body; // Expect userId and rating value from the request body
+  const { userId, userRating } = req.body;
 
   if (!userId || !userRating || userRating < 1 || userRating > 5) {
-    return res.status(400).json({ message: 'Invalid input. Provide a valid userId and rating (1-5).' });
+    return res
+      .status(400)
+      .json({ message: 'Invalid input. Provide a valid userId and rating (1-5).' });
   }
 
   try {
-    // Find the artist by ID
     const artist = await Artist.findById(id);
     if (!artist) {
       return res.status(404).json({ message: 'Artist not found' });
     }
 
-    // Check if the user has already rated
     const existingRating = artist.ratings.find((rating) => rating.userId === userId);
     if (existingRating) {
       return res.status(400).json({ message: 'You have already rated this artist.' });
     }
 
-    // Add the new rating to the ratings array
     artist.ratings.push({ userId, value: userRating });
 
-    // Calculate the new average rating
     const totalRatings = artist.ratings.length;
     const sumRatings = artist.ratings.reduce((sum, rating) => sum + rating.value, 0);
-    artist.rating = (sumRatings / totalRatings).toFixed(2); // Update the average rating
+    artist.rating = (sumRatings / totalRatings).toFixed(2);
 
-    // Save the updated artist
     await artist.save();
 
     res.status(200).json({
       message: 'Rating added successfully',
       averageRating: artist.rating,
-      totalRatings: totalRatings,
+      totalRatings,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-
 
 module.exports = {
   getArtists,

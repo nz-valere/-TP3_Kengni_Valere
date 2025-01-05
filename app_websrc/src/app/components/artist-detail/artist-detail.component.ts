@@ -24,6 +24,8 @@ export class ArtistDetailComponent implements OnInit {
       this.artistService.getArtistById(id.toString()).subscribe({
         next: (data) => {
           this.artist = data
+          console.log(this.artist.image);
+          
           this.errorMessage = null;
         },
         error: (err) => {

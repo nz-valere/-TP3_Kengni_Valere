@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ArtistService {
-  private apiUrl = 'https://tp3-kengni-valere-1.onrender.com/api/artists'; // Adjust if needed
+  private apiUrl = 'http://localhost:5000/api/artists'; // Adjust if needed
+  // private apiUrl = 'https://tp3-kengni-valere-1.onrender.com/api/artists'; // Adjust if needed
 
   constructor(private http: HttpClient) {}
 
@@ -35,8 +36,4 @@ export class ArtistService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  // Rate an artist
-  // rateArtist(id: string, rating: any): Observable<any> {
-  //   return this.http.post<any>(`${this.apiUrl}/${id}/rate`, rating);
-  // }
 }

@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const artistSchema = new mongoose.Schema({
   artistId: { type: String, required: true, unique: true },
-  image: { type: String, required: false },
+  image: {
+    data: Buffer,
+    contentType: String,
+  },
   name: { type: String, required: true },
   stageName: { type: String, required: true },
   albums: { type: Number, default: 0 },
