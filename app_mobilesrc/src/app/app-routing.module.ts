@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +11,7 @@ const routes: Routes = [
   {
     path: 'homepage',
     loadChildren: () => import('./pages/homepage/homepage.module').then( m => m.HomepagePageModule),
-    // canActivate: [AuthGuard], // Protect this route
+    canActivate: [AuthGuard], // Protect this route
   },
   {
     path: 'artist-detail',
