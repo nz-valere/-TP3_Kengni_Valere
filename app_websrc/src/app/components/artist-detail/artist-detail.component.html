@@ -2,7 +2,9 @@
     <h1>Artist Details</h1>
   </div>
   <div class="container">
-    <img [src]="artist.image" alt="{{ artist.stageName }}'s image" class="background-image">
+    <!-- <img src="{{ artist.image }}" alt="{{ artist.stageName }}'s image" class="background-image"> -->
+    <img *ngIf="artist.image" [src]="artist.image" alt="{{ artist.stageName }}'s image" class="background-image">
+
     <div class="overlay">
         <h2>{{ artist.name }} ({{ artist.stageName }})</h2>
         <p>Social Media: {{ artist.socialMedia }}</p>

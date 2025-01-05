@@ -25,16 +25,19 @@ const getArtists = async (req, res) => {
   }
 };
 
+// Get an artist by ID
 const getArtistById = async (req, res) => {
   try {
     const artist = await Artist.findById(req.params.id);
     if (!artist) {
       return res.status(404).json({ message: 'Artist not found' });
     }
-    // Check if image exists and convert it to a Base64 string
+    // Convert image buffer to Base64 if it exists
     if (artist.image && artist.image.data) {
-      artist.image = `data:${artist.image.contentType};base64,${artist.image.data.toString('base64')}`;
+      const base64Image = `data:${artist.image.contentType};base64,${artist.image.data.toString('base64')}`;
+      artist.image = base64Image;
     }
+    console.log(`Image for artist: ${artist.image}`);
     res.status(200).json(artist);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -65,7 +68,7 @@ const createArtist = async (req, res) => {
 
     await artist.save();
 
-    // After saving, return the image as base64
+    // Convert image buffer to Base64 after saving
     if (artist.image && artist.image.data) {
       artist.image = `data:${artist.image.contentType};base64,${artist.image.data.toString('base64')}`;
     }
@@ -104,6 +107,12 @@ const updateArtist = async (req, res) => {
     }
 
     const updatedArtist = await artist.save();
+
+    // Convert image buffer to Base64 after saving
+    if (updatedArtist.image && updatedArtist.image.data) {
+      updatedArtist.image = `data:${updatedArtist.image.contentType};base64,${updatedArtist.image.data.toString('base64')}`;
+    }
+
     res.status(200).json(updatedArtist);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -121,6 +130,7 @@ const deleteArtist = async (req, res) => {
   }
 };
 
+// Rate an artist
 const rateArtist = async (req, res) => {
   const { id } = req.params;
   const { userId, userRating } = req.body;
