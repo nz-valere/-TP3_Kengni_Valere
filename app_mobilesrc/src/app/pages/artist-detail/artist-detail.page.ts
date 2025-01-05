@@ -16,6 +16,7 @@ export class ArtistDetailPage implements OnInit {
   artist: any;
   userId: string | null = null; // Initialize as null
   ratingForm: FormGroup;
+  alertButtons = ['Dismiss'];
 
   constructor(
     private route: ActivatedRoute,
@@ -86,5 +87,12 @@ export class ArtistDetailPage implements OnInit {
         console.error('Error submitting rating:', error.error.message || error.message);
       }
     );
+  }
+
+  onScroll(event: any) {
+    // this.loadArtists(this.currentPage + 1);
+    if (event) {
+      event.target.complete();
+    }
   }
 }

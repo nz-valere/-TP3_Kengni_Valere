@@ -1,26 +1,54 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Register</ion-title>
+    <ion-title>Create an Account</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="registerForm" (ngSubmit)="register()">
-    <ion-item>
-      <ion-label position="stacked">Name</ion-label>
-      <ion-input type="text" formControlName="name"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Email</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-    </ion-item>
-    <ion-button expand="block" type="submit">Register</ion-button>
-    <p *ngIf="errorMessage" style="color: red; text-align: center;">
-      {{ errorMessage }}
-    </p>
-  </form>
+  <div class="ion-padding">
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="ion-text-center ion-margin-bottom">
+        <h2>Create an Account</h2>
+        <p>Enter your personal details to create an account</p>
+      </div>
+
+      <!-- Name Input -->
+      <ion-item>
+        <ion-label position="stacked">Your Name</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+        Please, enter your name!
+      </ion-text>
+
+      <!-- Email Input -->
+      <ion-item>
+        <ion-label position="stacked">Your Email</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        Please enter a valid Email address!
+      </ion-text>
+
+      <!-- Password Input -->
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        Please enter your password!
+      </ion-text>
+
+      <!-- Register Button -->
+      <ion-button expand="block" type="submit" [disabled]="registerForm.invalid">Create Account</ion-button>
+
+      <!-- Already have an account -->
+      <div class="ion-text-center ion-margin-top">
+        <p class="small">
+          Already have an account?
+          <a (click)="navigateToLogin()">Log in</a>
+        </p>
+      </div>
+    </form>
+  </div>
 </ion-content>

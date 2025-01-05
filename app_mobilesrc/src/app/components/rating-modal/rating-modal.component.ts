@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-rating-modal',
   templateUrl: './rating-modal.component.html',
   styleUrls: ['./rating-modal.component.scss'],
+  imports: [IonicModule, ReactiveFormsModule],
+  standalone: true
 })
 export class RatingModalComponent {
   @Input() artistId!: string; // Accept artist ID as input

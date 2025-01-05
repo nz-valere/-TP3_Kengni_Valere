@@ -1,15 +1,17 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Artists</ion-title>
-    <ion-searchbar
-      [(ngModel)]="searchQuery"
-      (ionInput)="searchArtists()"
-      placeholder="Search by name or stage name"
-    ></ion-searchbar>
+    
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  
+  <ion-searchbar style="margin-top: 10px;"
+      [(ngModel)]="searchQuery"
+      (ionInput)="searchArtists()"
+      placeholder="Search by name or stage name"
+    ></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let artist of artists" [routerLink]="['/artist-detail', artist._id]">
       <ion-thumbnail slot="start">

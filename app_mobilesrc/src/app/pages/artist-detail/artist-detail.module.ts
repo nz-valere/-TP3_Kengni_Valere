@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RatingModalComponent } from '../../components/rating-modal/rating-modal.component';
+import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,10 +12,9 @@ import { ArtistDetailPage } from './artist-detail.page';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     IonicModule,
     ArtistDetailPageRoutingModule
   ],
-  declarations: [ArtistDetailPage, RatingModalComponent],
+  declarations: [ArtistDetailPage]
 })
 export class ArtistDetailPageModule {}

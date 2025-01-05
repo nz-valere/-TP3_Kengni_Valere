@@ -5,18 +5,37 @@
 </ion-header>
 
 <ion-content>
-  <form (ngSubmit)="login()">
-    <ion-item>
-      <ion-label position="stacked">Email</ion-label>
-      <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Password</ion-label>
-      <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-    </ion-item>
-    <ion-button expand="block" type="submit">Login</ion-button>
-    <!-- <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p> -->
-    <p [innerHTML]="errorMessage" (click)="navigateToRegister()"></p>
-
-  </form>
+  <div class="ion-padding">
+    <form (ngSubmit)="login()" novalidate>
+      <div class="ion-text-center ion-margin-bottom">
+        <h2>Login to Your Account</h2>
+        <p>Enter your email & password to login</p>
+      </div>
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+        <ion-text color="danger" *ngIf="!email">Please enter your email.</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+        <ion-text color="danger" *ngIf="!password">Please enter your password!</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-checkbox slot="start" [(ngModel)]="rememberMe" name="rememberMe"></ion-checkbox>
+        <ion-label>Remember me</ion-label>
+      </ion-item>
+      <ion-button expand="block" type="submit" class="ion-margin-top">Login</ion-button>
+      <div class="ion-text-center ion-margin-top">
+        <p class="small">
+          Don't have an account?
+          <a [routerLink]="['/register']">Create an account</a>
+          <!-- <ion-button routerLink="/register" expand="block" color="primary">
+            Go to Register
+          </ion-button> -->
+        </p>
+      </div>
+    </form>
+  </div>
 </ion-content>
+

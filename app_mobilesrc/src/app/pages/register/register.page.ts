@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage {
+navigateToLogin() {
+  this.router.navigate(['/login']);
+}
   registerForm: FormGroup;
   errorMessage: string = '';
 

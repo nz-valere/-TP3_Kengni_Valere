@@ -1,12 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  // {
-  //   path: 'home',
-  //   loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  // },
   {
     path: '',
     redirectTo: 'login',
@@ -15,7 +10,7 @@ const routes: Routes = [
   {
     path: 'homepage',
     loadChildren: () => import('./pages/homepage/homepage.module').then( m => m.HomepagePageModule),
-    canActivate: [AuthGuard], // Protect this route
+    // canActivate: [AuthGuard], // Protect this route
   },
   {
     path: 'artist-detail',
@@ -26,10 +21,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/artist-detail/artist-detail.module').then((m) => m.ArtistDetailPageModule),
   },
-  {
-    path: '**',
-    redirectTo: 'homepage',
-  },
+  // {
+  //   path: '**',
+  //   redirectTo: 'homepage',
+  // },
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
@@ -37,6 +32,14 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'artist-detail',
+    loadChildren: () => import('./pages/artist-detail/artist-detail.module').then( m => m.ArtistDetailPageModule)
+  },
+  {
+    path: 'homepage',
+    loadChildren: () => import('./pages/homepage/homepage.module').then( m => m.HomepagePageModule)
   },
 ];
 

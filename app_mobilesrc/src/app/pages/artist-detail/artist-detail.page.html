@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{ artist?.stageName }}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/homepage"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -23,6 +23,16 @@
       </p>
     </ion-card-content>
     <ion-button expand="block" (click)="openRatingModal()">Rate Artist</ion-button>
-    <ion-button expand="block" (click)="followArtist()">"Follow Artist</ion-button>
+    <ion-button expand="block" id="present-alert">Follow Artist</ion-button>
+    <ion-alert
+      trigger="present-alert"
+      header="You are now follwing.."
+      subHeader="{{artist.name}}"
+      [buttons]="alertButtons"
+    ></ion-alert>
+    
   </ion-card>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onScroll($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

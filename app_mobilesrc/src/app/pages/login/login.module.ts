@@ -7,13 +7,21 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
+import { RouterLink, Routes } from '@angular/router';
+import { RegisterPage } from '../register/register.page';
+
+const routes: Routes = [
+  { path: 'register', component: RegisterPage },
+  // Other routes
+];
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    LoginPageRoutingModule
+    LoginPageRoutingModule,
+    RouterLink
   ],
   declarations: [LoginPage]
 })

@@ -10,7 +10,7 @@ describe('RatingModalComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ RatingModalComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), IonicModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(RatingModalComponent);
