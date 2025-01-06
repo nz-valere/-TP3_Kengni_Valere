@@ -34,7 +34,10 @@ const getArtistById = async (req, res) => {
     }
     // Convert image buffer to Base64 if it exists
     if (artist.image && artist.image.data) {
-      const base64Image = `data:${artist.image.contentType};base64,${artist.image.data.toString('base64')}`;
+      // const base64Image = `data:${artist.image.contentType};base64,${artist.image.data.toString('base64')}`;
+      const base64Image = `data:${artist.image.contentType};base64,${Buffer.from(
+        artist.image.data
+      ).toString('base64')}`;
       artist.image = base64Image;
     }
     console.log(`Image for artist: ${artist.image}`);
